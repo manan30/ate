@@ -3,7 +3,7 @@ import { placesApiEndpoints } from '../../api/places';
 
 const useAutoSuggest = (searchTerm: string) => {
   const { data, isLoading, error } = useQuery(
-    ['discover', searchTerm],
+    ['auto-suggest', searchTerm],
     async () => await placesApiEndpoints.autoSuggest(searchTerm)
   );
 
