@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
-import { placesApiEndpoints } from '..';
+import { placesApiEndpoints } from '../../api/places';
 
-const useHereSearch = (searchTerm: string) => {
+const useSearch = (searchTerm: string) => {
   const { data, isLoading, error } = useQuery(
     ['discover', searchTerm],
     async () => await placesApiEndpoints.search(searchTerm),
@@ -16,4 +16,4 @@ const useHereSearch = (searchTerm: string) => {
   return { isLoading, error, discoverData };
 };
 
-export default useHereSearch;
+export default useSearch;
