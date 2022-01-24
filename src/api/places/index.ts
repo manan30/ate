@@ -1,6 +1,10 @@
 import axios from 'redaxios';
-import { generateServiceEndpoint } from './constants';
-import { HERE_API_SERVICES } from './types';
+import { generateServiceEndpoint, HERE_API_SERVICES } from './constants';
+import type {
+  AutoSuggestResponse,
+  DiscoverResponse,
+  AutoCompleteResponse
+} from './types';
 
 const searchServiceEndpoint = generateServiceEndpoint(HERE_API_SERVICES.SEARCH);
 const autoSuggestServiceEndpoint = generateServiceEndpoint(
@@ -12,7 +16,7 @@ const autoCompleteServiceEndpoint = generateServiceEndpoint(
 
 export const placesApiEndpoints = {
   search: (searchTerm: string) =>
-    axios.get<Array<Record<string, unknown>>>(searchServiceEndpoint, {
+    axios.get<DiscoverResponse>(searchServiceEndpoint, {
       params: {
         q: searchTerm,
         in: 'circle:42.36309,-71.05495;r=150',
@@ -20,7 +24,7 @@ export const placesApiEndpoints = {
       }
     }),
   autoSuggest: (searchTerm: string) =>
-    axios.get<Record<string, unknown>>(autoSuggestServiceEndpoint, {
+    axios.get<AutoSuggestResponse>(autoSuggestServiceEndpoint, {
       params: {
         q: searchTerm,
         in: 'circle:42.36309,-71.05495;r=150',
@@ -28,7 +32,7 @@ export const placesApiEndpoints = {
       }
     }),
   autoComplete: (searchTerm: string) =>
-    axios.get<Record<string, unknown>>(autoCompleteServiceEndpoint, {
+    axios.get<AutoCompleteResponse>(autoCompleteServiceEndpoint, {
       params: {
         q: searchTerm,
         apiKey: import.meta.env.VITE_HERE_API_KEY?.toString() ?? ''

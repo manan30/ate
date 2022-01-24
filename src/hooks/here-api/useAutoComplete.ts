@@ -7,7 +7,7 @@ const useAutoComplete = (searchTerm: string) => {
     async () => await placesApiEndpoints.autoComplete(searchTerm)
   );
 
-  const autoCompleteData = data?.data ?? {};
+  const autoCompleteData = data?.data;
 
   return { isLoading, error, autoCompleteData };
 };

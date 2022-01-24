@@ -1,4 +1,8 @@
-import { HERE_API_SERVICES } from './types';
+export enum HERE_API_SERVICES {
+  'AUTOSUGGEST' = 'autosuggest',
+  'AUTOCOMPLETE' = 'autocomplete',
+  'SEARCH' = 'discover'
+}
 
 const PROTOCOL = 'https://';
 const API_BASE_URL = 'search.hereapi.com';

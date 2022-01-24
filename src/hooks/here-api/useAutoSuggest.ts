@@ -7,7 +7,7 @@ const useAutoSuggest = (searchTerm: string) => {
     async () => await placesApiEndpoints.autoSuggest(searchTerm)
   );
 
-  const autoSuggestData = data?.data ?? {};
+  const autoSuggestData = data?.data;
 
   return { isLoading, error, autoSuggestData };
 };

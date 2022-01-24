@@ -11,7 +11,7 @@ const useSearch = (searchTerm: string) => {
     }
   );
 
-  const discoverData = data?.data ?? [];
+  const discoverData = data?.data;
 
   return { isLoading, error, discoverData };
 };
