@@ -1,18 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Position } from './types';
 
 const defaultSettings: PositionOptions = {
   enableHighAccuracy: false,
   timeout: Infinity,
   maximumAge: 0
-};
-
-type Position = {
-  latitude: number;
-  longitude: number;
-  accuracy: number;
-  speed: number | null;
-  heading: number | null;
-  timestamp: number;
 };
 
 const usePosition = (watch = false, userSettings: PositionOptions = {}) => {
