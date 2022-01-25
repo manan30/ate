@@ -1,6 +1,8 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@headlessui/react': 1.4.3
+  '@heroicons/react': 1.0.5
   '@types/react': ^17.0.37
   '@types/react-dom': ^17.0.11
   '@typescript-eslint/eslint-plugin': ^5.8.0
@@ -28,6 +30,8 @@ specifiers:
   vite: ^2.7.4
 
 dependencies:
+  '@headlessui/react': 1.4.3_react-dom@17.0.2+react@17.0.2
+  '@heroicons/react': 1.0.5_react@17.0.2
   classnames: 2.3.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
@@ -349,6 +353,25 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@headlessui/react/1.4.3_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-n2IQkaaw0aAAlQS5MEXsM4uRK+w18CrM72EqnGRl/UBOQeQajad8oiKXR9Nk15jOzTFQjpxzrZMf1NxHidFBiw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
+  /@heroicons/react/1.0.5_react@17.0.2:
+    resolution: {integrity: sha512-UDMyLM2KavIu2vlWfMspapw9yii7aoLwzI2Hudx4fyoPwfKfxU8r3cL8dEBXOjcLG0/oOONZzbT14M1HoNtEcg==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 17.0.2
+    dev: false
 
   /@humanwhocodes/config-array/0.9.2:
     resolution: {integrity: sha512-UXOuFCGcwciWckOpmfKDq/GyhlTf9pN/BzG//x8p8zTOFEcGuA68ANXheFS0AGvy3qgZqLBUkMs7hqzqCKOVwA==}

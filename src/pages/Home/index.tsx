@@ -1,5 +1,11 @@
+import AutoSuggestSearch from './components/AutoCompleteSearch';
+
 const Home = () => {
-  return <div></div>;
+  return (
+    <>
+      <AutoSuggestSearch />
+    </>
+  );
 };
 
 export default Home;
