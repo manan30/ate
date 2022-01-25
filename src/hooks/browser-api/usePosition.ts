@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Position } from './types';
+import { useCallback, useEffect, useMemo } from 'react';
+import { useGlobalDispatch } from '../../providers/GlobalState';
+import type { UserLocationPosition } from '../../reducers/GlobalState/types';
 
 const defaultSettings: PositionOptions = {
   enableHighAccuracy: false,
@@ -8,38 +9,48 @@ const defaultSettings: PositionOptions = {
 };
 
 const usePosition = (watch = false, userSettings: PositionOptions = {}) => {
+  const dispatch = useGlobalDispatch();
   const settings: PositionOptions = useMemo(
     () => ({ ...defaultSettings, ...userSettings }),
     [userSettings]
   );
 
-  const [position, setPosition] = useState<Position | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const onChange = ({
-    coords,
-    timestamp
-  }: {
-    coords: GeolocationCoordinates;
-    timestamp: number;
-  }) => {
-    setPosition({
-      latitude: coords.latitude,
-      longitude: coords.longitude,
-      accuracy: coords.accuracy,
-      speed: coords.speed,
-      heading: coords.heading,
+  const onChange = useCallback(
+    ({
+      coords,
       timestamp
-    });
-  };
+    }: {
+      coords: GeolocationCoordinates;
+      timestamp: number;
+    }) => {
+      dispatch?.({
+        type: 'SET_USER_LOCATION',
+        payload: {
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+          accuracy: coords.accuracy,
+          speed: coords.speed,
+          heading: coords.heading,
+          timestamp
+        } as UserLocationPosition
+      });
+    },
+    [dispatch]
+  );
 
-  const onError = (error: GeolocationPositionError) => {
-    setError(error.message);
-  };
+  const onError = useCallback(
+    (error: GeolocationPositionError) => {
+      dispatch?.({ type: 'SET_USER_LOCATION_ERROR', payload: error.message });
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     if (!navigator || !navigator.geolocation) {
-      setError('Geolocation is not supported');
+      dispatch?.({
+        type: 'SET_USER_LOCATION_ERROR',
+        payload: 'Geolocation is not supported'
+      });
       return;
     }
 
@@ -49,9 +60,7 @@ const usePosition = (watch = false, userSettings: PositionOptions = {}) => {
     }
 
     navigator.geolocation.getCurrentPosition(onChange, onError, settings);
-  }, [watch, settings]);
-
-  return { position, error };
+  }, [watch, settings, onChange, onError, dispatch]);
 };
 
 export default usePosition;

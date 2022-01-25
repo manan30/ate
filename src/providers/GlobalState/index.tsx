@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useGlobalStateReducer } from '../../reducers/GlobalState';
 import { GlobalDispatch, GlobalState } from '../../reducers/GlobalState/types';
 
-const GlobalStateContext = React.createContext<GlobalState | null>(null);
+const GlobalStateContext = React.createContext<GlobalState>({} as GlobalState);
 const GlobalDispatchContext =
   React.createContext<React.Dispatch<GlobalDispatch> | null>(null);
 
