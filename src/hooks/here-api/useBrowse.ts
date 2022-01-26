@@ -5,7 +5,7 @@ import { useGlobalState } from '../../providers/GlobalState';
 const useBrowse = () => {
   const { userLocation } = useGlobalState();
   const { data, isLoading, error } = useQuery(
-    ['browse'],
+    ['browse', userLocation.position],
     async () =>
       await placesApiEndpoints.browse({
         lat: userLocation.position?.latitude ?? 0,
