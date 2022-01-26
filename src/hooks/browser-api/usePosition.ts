@@ -39,7 +39,7 @@ const usePosition = (watch = false, userSettings: PositionOptions = {}) => {
   );
 
   const onError = useCallback(
-    (error: GeolocationPositionError) => {
+    (error: GeolocationPositionError | { message: string }) => {
       dispatch?.({ type: 'SET_USER_LOCATION_ERROR', payload: error.message });
     },
     [dispatch]
@@ -47,9 +47,8 @@ const usePosition = (watch = false, userSettings: PositionOptions = {}) => {
 
   useEffect(() => {
     if (!navigator || !navigator.geolocation) {
-      dispatch?.({
-        type: 'SET_USER_LOCATION_ERROR',
-        payload: 'Geolocation is not supported'
+      onError({
+        message: 'Geolocation is not supported'
       });
       return;
     }
@@ -60,7 +59,8 @@ const usePosition = (watch = false, userSettings: PositionOptions = {}) => {
     }
 
     navigator.geolocation.getCurrentPosition(onChange, onError, settings);
-  }, [watch, settings, onChange, onError, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 };
 
 export default usePosition;

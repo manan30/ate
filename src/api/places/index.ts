@@ -23,11 +23,11 @@ export const placesApiEndpoints = {
         apiKey: import.meta.env.VITE_HERE_API_KEY?.toString() ?? ''
       }
     }),
-  autoSuggest: (searchTerm: string) =>
+  autoSuggest: (searchTerm: string, coords: { lat: number; lng: number }) =>
     axios.get<AutoSuggestResponse>(autoSuggestServiceEndpoint, {
       params: {
         q: searchTerm,
-        in: 'circle:42.36309,-71.05495;r=150',
+        at: `${coords.lat},${coords.lng}`,
         apiKey: import.meta.env.VITE_HERE_API_KEY?.toString() ?? ''
       }
     }),

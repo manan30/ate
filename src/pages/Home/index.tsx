@@ -1,9 +1,9 @@
-import AutoSuggestSearch from './components/AutoCompleteSearch';
+import PlacesSearch from './components/PlacesSearch';
 
 const Home = () => {
   return (
     <>
-      <AutoSuggestSearch />
+      <PlacesSearch />
     </>
   );
 };
