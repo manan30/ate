@@ -3,7 +3,8 @@ import { generateServiceEndpoint, HERE_API_SERVICES } from './constants';
 import type {
   AutoSuggestResponse,
   DiscoverResponse,
-  AutoCompleteResponse
+  AutoCompleteResponse,
+  BrowseResponse
 } from './types';
 
 const searchServiceEndpoint = generateServiceEndpoint(HERE_API_SERVICES.SEARCH);
@@ -40,12 +41,12 @@ export const placesApiEndpoints = {
       }
     }),
   browse: (coords: { lat: number; lng: number }) =>
-    axios.get(browseServiceEndpoint, {
+    axios.get<BrowseResponse>(browseServiceEndpoint, {
       params: {
         at: `${coords.lat},${coords.lng}`,
         categories: '100-1000,300-3000,600-6100,!100-1000-0009',
         foodTypes: '202,208,102',
-        in: `circle:${coords.lat},${coords.lng};r=10000`
+        apiKey: import.meta.env.VITE_HERE_API_KEY?.toString() ?? ''
       }
     })
 };
