@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import { Transition } from '@headlessui/react';
-import BaseInput from '../../../components/BaseInput';
+import Input from '../../../components/Input';
 import useAutoSuggest from '../../../hooks/here-api/useAutoSuggest';
 
 const PlacesSearch = () => {
@@ -9,7 +9,7 @@ const PlacesSearch = () => {
 
   return (
     <div className='relative w-1/2'>
-      <BaseInput
+      <Input
         name='autoSuggestSearch'
         value={searchTerm}
         onChange={setSearchTerm}
