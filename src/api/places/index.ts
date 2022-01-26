@@ -13,6 +13,7 @@ const autoSuggestServiceEndpoint = generateServiceEndpoint(
 const autoCompleteServiceEndpoint = generateServiceEndpoint(
   HERE_API_SERVICES.AUTOCOMPLETE
 );
+const browseServiceEndpoint = generateServiceEndpoint(HERE_API_SERVICES.BROWSE);
 
 export const placesApiEndpoints = {
   search: (searchTerm: string) =>
@@ -36,6 +37,15 @@ export const placesApiEndpoints = {
       params: {
         q: searchTerm,
         apiKey: import.meta.env.VITE_HERE_API_KEY?.toString() ?? ''
+      }
+    }),
+  browse: (coords: { lat: number; lng: number }) =>
+    axios.get(browseServiceEndpoint, {
+      params: {
+        at: `${coords.lat},${coords.lng}`,
+        categories: '100-1000,300-3000,600-6100,!100-1000-0009',
+        foodTypes: '202,208,102',
+        in: `circle:${coords.lat},${coords.lng};r=10000`
       }
     })
 };
