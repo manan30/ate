@@ -1,5 +1,11 @@
+import PlacesSearch from './components/PlacesSearch';
+
 const Home = () => {
-  return <div></div>;
+  return (
+    <>
+      <PlacesSearch />
+    </>
+  );
 };
 
 export default Home;

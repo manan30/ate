@@ -9,11 +9,11 @@ const GlobalDispatchContext =
 const GlobalStateProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useGlobalStateReducer();
   return (
-    <GlobalStateContext.Provider value={state}>
-      <GlobalDispatchContext.Provider value={dispatch}>
+    <GlobalDispatchContext.Provider value={dispatch}>
+      <GlobalStateContext.Provider value={state}>
         {children}
-      </GlobalDispatchContext.Provider>
-    </GlobalStateContext.Provider>
+      </GlobalStateContext.Provider>
+    </GlobalDispatchContext.Provider>
   );
 };
 
