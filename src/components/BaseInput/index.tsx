@@ -5,6 +5,8 @@ type BaseInputProps = {
   value: string;
   name: string;
   onChange: (value: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
   className?: string;
   placeholder?: string;
   type?: React.HTMLInputTypeAttribute;
@@ -15,6 +17,8 @@ const BaseInput: React.FC<BaseInputProps> = ({
   value,
   name,
   onChange,
+  onFocus,
+  onBlur,
   placeholder,
   type = 'text',
   loading
@@ -28,6 +32,8 @@ const BaseInput: React.FC<BaseInputProps> = ({
         onChange={(e) => {
           onChange(e.currentTarget.value);
         }}
+        onFocus={onFocus}
+        onBlur={onBlur}
         placeholder={placeholder ?? 'Enter value'}
         className='flex-1 block leading-tight text-gray-700 focus:outline-none'
       />
