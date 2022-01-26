@@ -59,8 +59,7 @@ const usePosition = (watch = false, userSettings: PositionOptions = {}) => {
     }
 
     navigator.geolocation.getCurrentPosition(onChange, onError, settings);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [watch, settings, onChange, onError]);
 };
 
 export default usePosition;
