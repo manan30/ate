@@ -10,7 +10,8 @@ const useBrowse = () => {
       await placesApiEndpoints.browse({
         lat: userLocation.position?.latitude ?? 0,
         lng: userLocation.position?.longitude ?? 0
-      })
+      }),
+    { enabled: !!userLocation.position }
   );
 
   const browseData = data?.data.items ?? [];
