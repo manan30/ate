@@ -6,6 +6,8 @@ import { useBadgeStyles } from '../../../hooks/ui/useBadgeStyles';
 import { convertMeterToMile } from '../../../utils/functions/convert-meter-to-mile';
 import { Level2HereCategories } from '../../../hooks/ui/constants';
 import type { BrowseItem } from '../../../api/places/types';
+import { formatTimeToHrs } from '../../../utils/functions/convert-number-to-hrs';
+import { weekDayMappings } from '../../../utils/constants';
 
 type ExploreNearbyCardProps = {
   item: BrowseItem;
@@ -49,19 +51,40 @@ const ExploreNearbyCard: React.FC<ExploreNearbyCardProps> = ({ item }) => {
   const categoryBadgeStyles = useBadgeStyles(level2Category?.name ?? '');
   const foodTypeBadgeStyles = useBadgeStyles('foodType');
   const contacts = item.contacts?.[0];
-  item.openingHours?.[0].structured.reduce(
-    (acc: Record<string, string>, curr: Record<string, string>) => {
-      const startTime = curr.start.split('T')[1];
-      const duration = curr.duration.split('PT')[1];
-      const recurrence = curr.recurrence.split(':')[2].split(',');
+  const isOpen = item.openingHours?.[0].isOpen;
+  const hours: Record<string, string> =
+    item.openingHours?.[0].structured.reduce(
+      (acc: Record<string, string>, curr: Record<string, string>) => {
+        const startTime = curr.start.split('T')[1];
+        const duration = curr.duration.split('PT')[1];
+        const recurrence = curr.recurrence.split(':')[2].split(',');
 
-      for (let i = 0; i < recurrence.length; i += 1) {
-        acc[recurrence[i]] = startTime + duration;
-      }
-      return acc;
-    },
-    {} as Record<string, string>
-  );
+        const formattedStartTime =
+          Number(startTime.slice(0, startTime.length - 2)) / 100;
+        const formattedDurationHours = Number(duration.split('H')[0]);
+        const formattedDurationMins =
+          Number(duration.split('H')[1].split('M')[0]) / 100;
+
+        const endTime = formatTimeToHrs(formattedStartTime, {
+          hrs: formattedDurationHours,
+          mins: formattedDurationMins
+        });
+
+        for (let i = 0; i < recurrence.length; i += 1) {
+          acc[weekDayMappings[recurrence[i] as keyof typeof weekDayMappings]] =
+            endTime;
+        }
+        return acc;
+      },
+      {} as Record<string, string>
+    );
+
+  const todaysHours = Object.entries(hours).find(([key]) => {
+    const day = Intl.DateTimeFormat('default', { weekday: 'short' }).format(
+      new Date()
+    );
+    return key === day;
+  })?.[1];
 
   return (
     <Card key={item.id}>
@@ -97,6 +120,16 @@ const ExploreNearbyCard: React.FC<ExploreNearbyCardProps> = ({ item }) => {
                 {foodType}
               </div>
             ))}
+          </div>
+        ) : null}
+        {todaysHours ? (
+          <div className='text-xs italic font-light text-slate-600'>
+            Open until {todaysHours}
+          </div>
+        ) : null}
+        {isOpen ? (
+          <div className='text-xs italic font-light text-slate-600'>
+            Currently open
           </div>
         ) : null}
         {contacts ? (
