@@ -15,17 +15,6 @@ type ExploreNearbyCardProps = {
 
 const level2CategoryCodes = Object.keys(Level2HereCategories);
 
-// openingHours 1 item
-// ▶ 0 4 items
-// ▶ categories 1 item
-// ▶ text 2 items
-// isOpen: true
-// ▶ structured 2 items
-// ▶ 0 3 items
-// start: "T113000"
-// duration: "PT08H30M"
-// recurrence: "FREQ:DAILY;BYDAY:MO,TU,WE,TH"
-
 const ExploreNearbyCard: React.FC<ExploreNearbyCardProps> = ({ item }) => {
   const level2Category = item.categories?.find((c) =>
     level2CategoryCodes.includes(c.id)
@@ -33,21 +22,9 @@ const ExploreNearbyCard: React.FC<ExploreNearbyCardProps> = ({ item }) => {
   const otherCategories = item.categories
     ?.filter((c) => c.id !== level2Category?.id)
     .map((c) => c.name);
-  const foodTypes = [
-    ...new Set(
-      item.foodTypes
-        ?.map((ft) => ft.name)
-        .reduce((acc, ft) => {
-          acc.push(...ft.split('-'));
-          return acc;
-        }, [] as string[])
-        .reduce((acc, ft) => {
-          acc.push(...ft.split(' '));
-          return acc;
-        }, [] as string[])
-        .filter(Boolean)
-    )
-  ];
+
+  const primaryFoodType = item.foodTypes?.filter((ft) => ft.primary);
+
   const categoryBadgeStyles = useBadgeStyles(level2Category?.name ?? '');
   const foodTypeBadgeStyles = useBadgeStyles('foodType');
   const contacts = item.contacts?.[0];
@@ -113,11 +90,11 @@ const ExploreNearbyCard: React.FC<ExploreNearbyCardProps> = ({ item }) => {
             {otherCategories.join(', ')}
           </div>
         ) : null}
-        {foodTypes?.length ? (
+        {primaryFoodType?.length ? (
           <div className='flex items-center space-x-3'>
-            {foodTypes.map((foodType) => (
-              <div className={foodTypeBadgeStyles} key={foodType}>
-                {foodType}
+            {primaryFoodType.map((foodType) => (
+              <div className={foodTypeBadgeStyles} key={foodType.id}>
+                {foodType.name}
               </div>
             ))}
           </div>
