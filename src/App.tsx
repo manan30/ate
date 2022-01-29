@@ -7,7 +7,7 @@ const App = (): React.ReactElement => {
   usePosition();
   return (
     <>
-      <main className='w-full h-full p-4 mx-auto sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-6xl 2xl:max-w-7xl'>
+      <main className='w-full h-full p-4 mx-auto sm:max-w-xl md:max-w-3xl lg:max-w-4xl xl:max-w-6xl 2xl:max-w-7xl'>
         <Home />
       </main>
       <RequestUserLocation />

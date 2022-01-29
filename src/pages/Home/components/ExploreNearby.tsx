@@ -9,7 +9,7 @@ const ExploreNearby = () => {
   const { browseData, isLoading } = useBrowse();
 
   return (
-    <section className='w-full h-full overflow-hidden'>
+    <section className='mx-2 h-full overflow-hidden'>
       <h2 className='my-6 text-lg font-medium text-slate-700'>
         Explore Nearby
       </h2>
