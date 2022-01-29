@@ -1,10 +1,8 @@
 import React from 'react';
-import cn from 'classnames';
 import { PhoneIcon, GlobeAltIcon } from '@heroicons/react/outline';
 import Card from '../../../components/Card';
 import { useBadgeStyles } from '../../../hooks/ui/useBadgeStyles';
 import { convertMeterToMile } from '../../../utils/functions/convert-meter-to-mile';
-import { Level2HereCategories } from '../../../hooks/ui/constants';
 import type { BrowseItem } from '../../../api/places/types';
 import { formatTimeToHrs } from '../../../utils/functions/convert-number-to-hrs';
 import { weekDayMappings } from '../../../utils/constants';
@@ -13,19 +11,8 @@ type ExploreNearbyCardProps = {
   item: BrowseItem;
 };
 
-const level2CategoryCodes = Object.keys(Level2HereCategories);
-
 const ExploreNearbyCard: React.FC<ExploreNearbyCardProps> = ({ item }) => {
-  const level2Category = item.categories?.find((c) =>
-    level2CategoryCodes.includes(c.id)
-  );
-  const otherCategories = item.categories
-    ?.filter((c) => c.id !== level2Category?.id)
-    .map((c) => c.name);
-
   const primaryFoodType = item.foodTypes?.filter((ft) => ft.primary);
-
-  const categoryBadgeStyles = useBadgeStyles(level2Category?.name ?? '');
   const foodTypeBadgeStyles = useBadgeStyles('foodType');
   const contacts = item.contacts?.[0];
   const isOpen = item.openingHours?.[0].isOpen;
@@ -65,31 +52,22 @@ const ExploreNearbyCard: React.FC<ExploreNearbyCardProps> = ({ item }) => {
 
   return (
     <Card key={item.id}>
-      <div className='relative flex flex-col space-y-1'>
-        <div className='font-medium text-slate-800'>{item.title}</div>
+      <div className='relative flex flex-col space-y-2'>
+        {isOpen ? (
+          <div className='absolute right-0 top-0 h-4 w-4 bg-green-500 motion-safe:animate-pulse rounded-full -translate-y-5 translate-x-5'></div>
+        ) : null}
+        <div className='flex items-center'>
+          <div className='font-medium text-slate-800'>{item.title}</div>
+          {item.distance ? (
+            <div className='ml-1 text-xs italic truncate text-slate-500'>
+              {' - '}
+              {convertMeterToMile(item.distance)} mi
+            </div>
+          ) : null}
+        </div>
         <div className='text-xs truncate text-slate-500'>
           {item.address?.label.split(',').slice(1).join(',')}
         </div>
-        {item.distance ? (
-          <div className='text-xs italic truncate text-slate-500'>
-            {convertMeterToMile(item.distance)} mi
-          </div>
-        ) : null}
-        {level2Category ? (
-          <div
-            className={cn(
-              'absolute right-0 h-auto w-auto -translate-y-2 translate-x-2',
-              categoryBadgeStyles
-            )}
-          >
-            {level2Category.name}
-          </div>
-        ) : null}
-        {otherCategories?.length ? (
-          <div className='text-xs italic font-light text-slate-600'>
-            {otherCategories.join(', ')}
-          </div>
-        ) : null}
         {primaryFoodType?.length ? (
           <div className='flex items-center space-x-3'>
             {primaryFoodType.map((foodType) => (
@@ -104,27 +82,22 @@ const ExploreNearbyCard: React.FC<ExploreNearbyCardProps> = ({ item }) => {
             Open until {todaysHours}
           </div>
         ) : null}
-        {isOpen ? (
-          <div className='text-xs italic font-light text-slate-600'>
-            Currently open
-          </div>
-        ) : null}
         {contacts ? (
-          <div className='flex space-x-3 item-center'>
+          <div className='flex space-x-3 item-center justify-end'>
             {contacts?.phone ? (
               <a
                 href={`tel:${contacts.phone[0]?.value ?? ''}`}
                 className='focus:outline-orange-600'
               >
-                <PhoneIcon className='w-4 h-4 text-gray-900' />
+                <PhoneIcon className='w-5 h-5 text-orange-600' />
               </a>
             ) : null}
             {contacts?.www ? (
               <a
                 href={contacts.www[0]?.value ?? ''}
-                className='focus:outline-orange-600'
+                className='focus:outline-blue-600'
               >
-                <GlobeAltIcon className='w-4 h-4 text-gray-900' />
+                <GlobeAltIcon className='w-5 h-5 text-blue-600' />
               </a>
             ) : null}
           </div>
