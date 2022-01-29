@@ -24,7 +24,7 @@ const BaseInput: React.FC<BaseInputProps> = ({
   loading
 }) => {
   return (
-    <div className='flex w-full px-3 py-2 space-x-6 text-sm transition-shadow ease-out bg-white border rounded-md focus-within:shadow-sm focus-within:ring-1 focus-within:ring-orange-500'>
+    <div className='flex w-full px-3 py-2 space-x-6 text-base md:text-sm transition-shadow ease-out bg-white border rounded-md focus-within:shadow-sm focus-within:ring-1 focus-within:ring-orange-500'>
       <input
         name={name}
         type={type}

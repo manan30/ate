@@ -8,7 +8,7 @@ const PlacesSearch = () => {
   const { autoSuggestData, isLoading } = useAutoSuggest(searchTerm);
 
   return (
-    <div className='relative w-1/2'>
+    <div className='relative w-full'>
       <Input
         name='autoSuggestSearch'
         value={searchTerm}
