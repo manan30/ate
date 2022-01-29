@@ -73,6 +73,20 @@ export type BrowseItem = {
   openingHours?: Array<Record<string, any>>;
 };
 
+export type LookupItem = {
+  resultType: ResultType;
+  title: string;
+  address: Record<string, any>;
+  position: Position;
+  access: Array<Record<string, any>>;
+  id: string;
+  categories: Array<Category>;
+  foodTypes: Array<FoodType>;
+  chains: Array<Record<string, any>>;
+  contacts: Array<Record<string, any>>;
+  openingHours: Array<Record<string, any>>;
+};
+
 export type DiscoverResponse = {
   items: Array<DiscoverItem>;
 };
@@ -87,4 +101,8 @@ export type AutoCompleteResponse = {
 
 export type BrowseResponse = {
   items: Array<BrowseItem>;
+};
+
+export type LookupResponse = {
+  items: BrowseItem;
 };

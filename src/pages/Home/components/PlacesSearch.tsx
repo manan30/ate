@@ -11,6 +11,7 @@ const PlacesSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { autoSuggestData, isLoading } = useAutoSuggest(searchTerm);
 
+  const [currentPlaceId, setCurrentPlaceId] = useState<string | null>(null);
   const [showPlaceDetailsCard, setShowPlaceDetailsCard] = useState(false);
 
   return (
@@ -36,7 +37,10 @@ const PlacesSearch = () => {
                 <button
                   className='p-0 px-3 py-1 text-left focus:outline-none focus:bg-orange-50 hover:bg-orange-50 group'
                   key={autoSuggestItem.id}
-                  onClick={() => setShowPlaceDetailsCard(true)}
+                  onClick={() => {
+                    setCurrentPlaceId(autoSuggestItem.id);
+                    setShowPlaceDetailsCard(true);
+                  }}
                 >
                   <div className='mb-1 font-medium text-gray-800 group-focus:text-orange-800 group-hover:text-orange-800'>
                     {autoSuggestItem.title}
@@ -52,10 +56,11 @@ const PlacesSearch = () => {
           )}
         </Transition>
       </div>
-      {showPlaceDetailsCard ? (
+      {showPlaceDetailsCard && currentPlaceId ? (
         <React.Suspense fallback={null}>
           <PlaceDetailsCard
             handleClose={() => setShowPlaceDetailsCard(false)}
+            placeId={currentPlaceId}
           />
         </React.Suspense>
       ) : null}

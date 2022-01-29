@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from '../Modal';
 
 type PlaceDetailsCardProps = {
+  placeId: () => void;
   handleClose: () => void;
 };
 
