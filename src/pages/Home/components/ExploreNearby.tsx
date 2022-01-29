@@ -18,11 +18,11 @@ const ExploreNearby = () => {
 
   return (
     <>
-      <section className='mx-2 h-full overflow-hidden'>
+      <section className='mx-2 h-full overflow-hidden flex flex-col'>
         <h2 className='my-6 text-lg font-medium text-slate-700'>
           Explore Nearby
         </h2>
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 h-[calc(100%-3rem)] overflow-y-auto w-[100%-0.5rem]'>
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 overflow-y-auto flex-1'>
           {isLoading || !userLocation.position ? (
             <LoadingCards />
           ) : (
