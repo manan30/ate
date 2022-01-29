@@ -6,10 +6,12 @@ import Home from './pages/Home';
 const App = (): React.ReactElement => {
   usePosition();
   return (
-    <div className='flex flex-col items-center justify-center w-full h-full p-4 bg-slate-100'>
-      <Home />
+    <>
+      <main className='w-full h-full p-4 mx-auto sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-6xl 2xl:max-w-7xl'>
+        <Home />
+      </main>
       <RequestUserLocation />
-    </div>
+    </>
   );
 };
 

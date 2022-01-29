@@ -25,9 +25,9 @@ export type Position = { lat: string; lng: string };
 export type DiscoverItem = {
   resultType: ResultType;
   title: string;
-  address?: Record<string, string>;
+  address?: Record<string, any>;
   position: Position;
-  access?: Array<Record<string, string>>;
+  access?: Array<Record<string, any>>;
   id: string;
   categories?: Array<Category>;
   foodTypes?: Array<FoodType>;
@@ -42,7 +42,7 @@ export type AutoSuggestItem = {
   href?: string;
   highlights?: Record<string, any>;
   position?: Position;
-  access?: Array<Record<string, string>>;
+  access?: Array<Record<string, any>>;
   distance?: number;
   address?: { label: string };
   categories?: Array<Category>;
@@ -60,6 +60,19 @@ export type AutoCompleteItem = {
   highlights?: Record<string, any>;
 };
 
+export type BrowseItem = {
+  id: string;
+  position: Position;
+  title?: string;
+  resultType?: ResultType;
+  categories?: Array<Category>;
+  foodTypes?: Array<FoodType>;
+  distance?: number;
+  address?: Record<string, any>;
+  contacts?: Array<Record<string, any>>;
+  openingHours?: Array<Record<string, any>>;
+};
+
 export type DiscoverResponse = {
   items: Array<DiscoverItem>;
 };
@@ -70,4 +83,8 @@ export type AutoSuggestResponse = {
 
 export type AutoCompleteResponse = {
   items: Array<AutoCompleteItem>;
+};
+
+export type BrowseResponse = {
+  items: Array<BrowseItem>;
 };
