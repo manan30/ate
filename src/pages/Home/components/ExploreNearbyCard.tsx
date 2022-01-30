@@ -4,7 +4,7 @@ import Card from '../../../components/Card';
 import { useBadgeStyles } from '../../../hooks/ui/useBadgeStyles';
 import { convertMeterToMile } from '../../../utils/functions/convert-meter-to-mile';
 import type { BrowseItem } from '../../../api/places/types';
-import { formatTimeToHrs } from '../../../utils/functions/convert-number-to-hrs';
+import { formatNumberToHrs } from '../../../utils/functions/convert-number-to-hrs';
 import { weekDayMappings } from '../../../utils/constants';
 
 type ExploreNearbyCardProps = {
@@ -33,10 +33,9 @@ const ExploreNearbyCard: React.FC<ExploreNearbyCardProps> = ({
         const formattedDurationMins =
           Number(duration.split('H')[1].split('M')[0]) / 100;
 
-        const endTime = formatTimeToHrs(formattedStartTime, {
-          hrs: formattedDurationHours,
-          mins: formattedDurationMins
-        });
+        const endTime = formatNumberToHrs(
+          formattedStartTime + formattedDurationHours + formattedDurationMins
+        );
 
         for (let i = 0; i < recurrence.length; i += 1) {
           acc[weekDayMappings[recurrence[i] as keyof typeof weekDayMappings]] =

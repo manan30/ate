@@ -6,8 +6,9 @@ import LoadingFallback from './LoadingFallback';
 import { convertMeterToMile } from '../../utils/functions/convert-meter-to-mile';
 import { useBadgeStyles } from '../../hooks/ui/useBadgeStyles';
 import { Level2HereCategories } from '../../hooks/ui/constants';
-import { formatTimeToHrs } from '../../utils/functions/convert-number-to-hrs';
+import { formatNumberToHrs } from '../../utils/functions/convert-number-to-hrs';
 import { weekDayMappings } from '../../utils/constants';
+import { GlobeAltIcon, PhoneIcon } from '@heroicons/react/outline';
 
 type PlaceDetailsCardProps = {
   placeId: string;
@@ -45,13 +46,18 @@ const PlaceDetailsCard: React.FC<PlaceDetailsCardProps> = ({
     )
   ];
 
+  const contacts = lookupData?.contacts?.[0];
+
   const categoryBadgeStyles = useBadgeStyles(level2Category?.name ?? '');
   const foodTypeBadgeStyles = useBadgeStyles('foodType');
   const otherCategoryBadgeStyles = useBadgeStyles('categories');
 
-  const hours: Record<string, string> =
+  const hours: Record<string, { startTime: string; endTime: string }> =
     lookupData?.openingHours?.[0].structured.reduce(
-      (acc: Record<string, string>, curr: Record<string, string>) => {
+      (
+        acc: Record<string, { startTime: string; endTime: string }>,
+        curr: Record<string, string>
+      ) => {
         const startTime = curr.start.split('T')[1];
         const duration = curr.duration.split('PT')[1];
         const recurrence = curr.recurrence.split(':')[2].split(',');
@@ -62,26 +68,24 @@ const PlaceDetailsCard: React.FC<PlaceDetailsCardProps> = ({
         const formattedDurationMins =
           Number(duration.split('H')[1].split('M')[0]) / 100;
 
-        const endTime = formatTimeToHrs(formattedStartTime, {
-          hrs: formattedDurationHours,
-          mins: formattedDurationMins
-        });
+        const readableStartTime = formatNumberToHrs(formattedStartTime);
+
+        const endTime = formatNumberToHrs(
+          formattedStartTime + formattedDurationHours + formattedDurationMins
+        );
 
         for (let i = 0; i < recurrence.length; i += 1) {
           acc[weekDayMappings[recurrence[i] as keyof typeof weekDayMappings]] =
-            endTime;
+            { startTime: readableStartTime, endTime };
         }
         return acc;
       },
-      {} as Record<string, string>
+      {}
     );
 
-  const todaysHours = Object.entries(hours ?? {}).find(([key]) => {
-    const day = Intl.DateTimeFormat('default', { weekday: 'short' }).format(
-      new Date()
-    );
-    return key === day;
-  })?.[1];
+  const today = Intl.DateTimeFormat('default', { weekday: 'short' }).format(
+    new Date()
+  );
 
   return (
     <Modal
@@ -90,16 +94,14 @@ const PlaceDetailsCard: React.FC<PlaceDetailsCardProps> = ({
     >
       {isLoading ? <LoadingFallback /> : null}
       {lookupData ? (
-        <div className='relative flex flex-col'>
-          <div className='flex flex-col flex-1 space-y-2'>
-            <div className='flex items-center'>
-              {lookupData.distance ? (
-                <div className='ml-1 text-xs italic truncate text-slate-500'>
-                  {' - '}
-                  {convertMeterToMile(lookupData.distance)} mi
-                </div>
-              ) : null}
-            </div>
+        <div className='relative flex flex-col mt-2'>
+          <div className='flex flex-col flex-1 space-y-3'>
+            {lookupData.distance ? (
+              <div className='ml-1 text-xs italic truncate text-slate-500'>
+                {' - '}
+                {convertMeterToMile(lookupData.distance)} mi
+              </div>
+            ) : null}
             <div className='text-xs truncate text-slate-500'>
               {lookupData.address?.label.split(',').slice(1).join(',')}
             </div>
@@ -126,14 +128,25 @@ const PlaceDetailsCard: React.FC<PlaceDetailsCardProps> = ({
                 ))}
               </div>
             ) : null}
-            {todaysHours ? (
-              <div className='text-xs italic font-light text-slate-600'>
-                Open until {todaysHours}
+            {hours ? (
+              // TODO: Show N/A for days not present in hours object and sort and show open now for a particular day
+              <div className='grid grid-cols-1 gap-2 md:grid-cols-2'>
+                {Object.entries(hours).map((entry) => (
+                  <div
+                    className={cn(
+                      'text-xs italic font-light text-slate-600',
+                      today === entry[0] && 'font-semibold'
+                    )}
+                    key={entry[0]}
+                  >
+                    {entry[0]}: {entry[1].startTime} - {entry[1].endTime}
+                  </div>
+                ))}
               </div>
             ) : null}
           </div>
           <div>
-            {/* {contacts ? (
+            {contacts ? (
               <div className='flex justify-end space-x-3 item-center'>
                 {contacts?.phone ? (
                   <a
@@ -152,7 +165,7 @@ const PlaceDetailsCard: React.FC<PlaceDetailsCardProps> = ({
                   </a>
                 ) : null}
               </div>
-            ) : null} */}
+            ) : null}
           </div>
         </div>
       ) : null}
