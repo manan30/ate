@@ -18,16 +18,16 @@ const ExploreNearby = () => {
 
   return (
     <>
-      <section className='mx-2 h-full overflow-hidden flex flex-col'>
-        <h2 className='my-6 text-lg font-medium text-slate-700'>
+      <section className='flex flex-col h-full mx-2 overflow-hidden'>
+        <h2 className='mt-6 mb-2 text-lg font-medium text-slate-700'>
           Explore Nearby
         </h2>
-        <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 overflow-y-auto flex-1'>
+        <div className='grid flex-1 grid-cols-1 gap-4 mb-1 overflow-y-auto md:grid-cols-2 xl:grid-cols-3'>
           {isLoading || !userLocation.position ? (
             <LoadingCards />
           ) : (
             browseData.map((item) => (
-              <div className='mx-1' key={item.id}>
+              <div className='mx-1 my-2' key={item.id}>
                 <ExploreNearbyCard
                   item={item}
                   handleTitleClick={() => {

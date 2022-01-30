@@ -10,7 +10,9 @@ const Card: React.FC<CardProps> = ({ className, children, isLoading }) => {
   return (
     <div
       className={cn(
-        'w-full h-auto p-4 shadow-sm rounded-md bg-slate-50 hover:shadow-md transition-all hover:-translate-y-1 hover:shadow-orange-500/20 focus:outline-none',
+        'w-full h-auto p-4 shadow-sm rounded-md bg-slate-50 transition-all focus:outline-none',
+        !isLoading &&
+          'hover:-translate-y-1 hover:shadow-orange-500/20 hover:shadow-md',
         className && className
       )}
     >

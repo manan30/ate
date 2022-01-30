@@ -3,7 +3,7 @@ import { HERECategories } from './constants';
 export const useBadgeStyles = (type: HERECategories | string) => {
   if (type === '') return '';
 
-  if (type === 'foodType')
+  if (type === 'foodType' || type === 'categories')
     return `w-auto h-full grid place-items-center text-[0.6rem] font-medium rounded-md px-3 py-1 tracking-tight truncate text-center bg-slate-300 text-slate-800`;
 
   const baseStyles =

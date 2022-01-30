@@ -38,13 +38,15 @@ const Modal: React.FC<ModalProps> = ({
         <div className='fixed inset-0 grid w-full h-full place-items-center'>
           <div
             className={cn(
-              'p-4 rounded-md m-8 shadow-md bg-slate-100 text-sm md:text-base max-h-[70%] overflow-hidden flex flex-col',
+              'p-4 rounded-md mx-8 shadow-md bg-slate-100 text-sm md:text-base overflow-hidden flex flex-col',
               size === 'small' && 'w-1/2 md:w-[30%]',
               size === 'medium' && 'w-3/5',
               size === 'large' && 'w-4/5 md:w-[70%]'
             )}
           >
-            <div className='overflow-hidden overflow-y-auto'>{children}</div>
+            <div className='flex-1 max-h-full overflow-hidden overflow-y-auto'>
+              {children}
+            </div>
             <div className='flex items-center justify-end mt-4 space-x-4'>
               {cancelAction ? (
                 <Button

@@ -47,7 +47,7 @@ const ExploreNearbyCard: React.FC<ExploreNearbyCardProps> = ({
       {} as Record<string, string>
     );
 
-  const todaysHours = Object.entries(hours).find(([key]) => {
+  const todaysHours = Object.entries(hours ?? {}).find(([key]) => {
     const day = Intl.DateTimeFormat('default', { weekday: 'short' }).format(
       new Date()
     );
@@ -57,14 +57,14 @@ const ExploreNearbyCard: React.FC<ExploreNearbyCardProps> = ({
   return (
     <Card key={item.id}>
       <div className='relative flex flex-col h-36'>
-        <div className='flex flex-col space-y-2 flex-1'>
+        <div className='flex flex-col flex-1 space-y-2'>
           {isOpen ? (
-            <div className='absolute right-0 top-0 h-3 w-3 md:h-4 md:w-4 bg-green-500 motion-safe:animate-pulse rounded-full -translate-y-5 translate-x-5'></div>
+            <div className='absolute top-0 right-0 w-3 h-3 translate-x-5 -translate-y-5 bg-green-500 rounded-full md:h-4 md:w-4 motion-safe:animate-pulse'></div>
           ) : null}
           <div className='flex items-center'>
             <button
               onClick={handleTitleClick}
-              className='text-base font-medium m-0 p-0 text-orange-600 rounded-sm hover:text-orange-700 focus:outline-none focus:outline-orange-600 focus:text-orange-700'
+              className='p-0 m-0 text-base font-medium text-orange-600 rounded-sm hover:text-orange-700 focus:outline-none focus:outline-orange-600 focus:text-orange-700'
             >
               {item.title}
             </button>
@@ -95,7 +95,7 @@ const ExploreNearbyCard: React.FC<ExploreNearbyCardProps> = ({
         </div>
         <div>
           {contacts ? (
-            <div className='flex space-x-3 item-center justify-end'>
+            <div className='flex justify-end space-x-3 item-center'>
               {contacts?.phone ? (
                 <a
                   href={`tel:${contacts.phone[0]?.value ?? ''}`}

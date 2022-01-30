@@ -73,9 +73,10 @@ export type BrowseItem = {
   openingHours?: Array<Record<string, any>>;
 };
 
-export type LookupItem = {
+export type LookupResponse = {
   resultType: ResultType;
   title: string;
+  distance?: number;
   address: Record<string, any>;
   position: Position;
   access: Array<Record<string, any>>;
@@ -101,8 +102,4 @@ export type AutoCompleteResponse = {
 
 export type BrowseResponse = {
   items: Array<BrowseItem>;
-};
-
-export type LookupResponse = {
-  items: BrowseItem;
 };

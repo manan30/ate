@@ -32,7 +32,7 @@ const PlacesSearch = () => {
           leaveTo='opacity-0'
         >
           {autoSuggestData.length > 0 && !showPlaceDetailsCard ? (
-            <div className='absolute flex flex-col w-full py-2 mt-2 space-y-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50'>
+            <div className='absolute z-50 flex flex-col w-full py-2 mt-2 space-y-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
               {autoSuggestData.map((autoSuggestItem) => (
                 <button
                   className='p-0 px-3 py-1 text-left focus:outline-none focus:bg-orange-50 hover:bg-orange-50 group'
