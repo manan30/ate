@@ -14,11 +14,12 @@ const Button: React.FC<ButtonProps> = ({
   onClickHandler
 }) => {
   const buttonClasses = cn(
-    'px-4 py-1 rounded-md text-xs md:text-sm font-medium text-slate-50 hover:shadow-md focus:shadow-md focus:outline-none',
+    'px-4 py-1 rounded-md text-xs md:text-sm font-medium text-slate-50 focus:outline-none',
     variant === 'secondary' && 'bg-orange-600 hover:bg-orange-700',
     variant === 'primary' && 'bg-slate-600 hover:bg-slate-700',
     variant === 'error' && 'bg-red-600 hover:bg-red-700',
-    variant === 'default' && 'bg-slate-300 text-slate-800',
+    variant === 'default' &&
+      'bg-slate-300 text-slate-800 focus:outline-slate-500',
     variant === 'link' &&
       'text-orange-600 hover:text-orange-700 hover:shadow-none focus:shadow-none',
     className && className

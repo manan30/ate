@@ -84,63 +84,21 @@ const PlaceDetailsCard: React.FC<PlaceDetailsCardProps> = ({
   })?.[1];
 
   return (
-    <Modal cancelAction={{ text: 'Close', handler: handleClose }}>
+    <Modal
+      cancelAction={{ text: 'Close', handler: handleClose }}
+      title={lookupData?.title}
+    >
       {isLoading ? <LoadingFallback /> : null}
       {lookupData ? (
-        <div className='relative flex flex-col h-36'>
+        <div className='relative flex flex-col'>
           <div className='flex flex-col flex-1 space-y-2'>
             <div className='flex items-center'>
-              <div className='p-0 m-0 text-base font-medium text-orange-600 rounded-sm hover:text-orange-700 focus:outline-none focus:outline-orange-600 focus:text-orange-700'>
-                {lookupData.title}
-              </div>
               {lookupData.distance ? (
                 <div className='ml-1 text-xs italic truncate text-slate-500'>
                   {' - '}
                   {convertMeterToMile(lookupData.distance)} mi
                 </div>
               ) : null}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
-            </div>
-            <div className='text-xs truncate text-slate-500'>
-              {lookupData.address?.label.split(',').slice(1).join(',')}
             </div>
             <div className='text-xs truncate text-slate-500'>
               {lookupData.address?.label.split(',').slice(1).join(',')}
