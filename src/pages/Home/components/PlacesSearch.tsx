@@ -3,8 +3,8 @@ import { Transition } from '@headlessui/react';
 import Input from '../../../components/Input';
 import useAutoSuggest from '../../../hooks/here-api/useAutoSuggest';
 
-const PlaceDetailsCard = React.lazy(
-  () => import('../../../components/PlaceDetailsCard')
+const PlaceDetailsModal = React.lazy(
+  () => import('../../../components/PlaceDetailsModal')
 );
 
 const PlacesSearch = () => {
@@ -12,7 +12,7 @@ const PlacesSearch = () => {
   const { autoSuggestData, isLoading } = useAutoSuggest(searchTerm);
 
   const [currentPlaceId, setCurrentPlaceId] = useState<string | null>(null);
-  const [showPlaceDetailsCard, setShowPlaceDetailsCard] = useState(false);
+  const [showPlaceDetailsModal, setShowPlaceDetailsModal] = useState(false);
 
   return (
     <>
@@ -31,7 +31,7 @@ const PlacesSearch = () => {
           leaveFrom='opacity-100'
           leaveTo='opacity-0'
         >
-          {autoSuggestData.length > 0 && !showPlaceDetailsCard ? (
+          {autoSuggestData.length > 0 && !showPlaceDetailsModal ? (
             <div className='absolute z-50 flex flex-col w-full py-2 mt-2 space-y-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
               {autoSuggestData.map((autoSuggestItem) => (
                 <button
@@ -39,7 +39,7 @@ const PlacesSearch = () => {
                   key={autoSuggestItem.id}
                   onClick={() => {
                     setCurrentPlaceId(autoSuggestItem.id);
-                    setShowPlaceDetailsCard(true);
+                    setShowPlaceDetailsModal(true);
                   }}
                 >
                   <div className='mb-1 font-medium text-gray-800 group-focus:text-orange-800 group-hover:text-orange-800'>
@@ -56,10 +56,10 @@ const PlacesSearch = () => {
           )}
         </Transition>
       </div>
-      {showPlaceDetailsCard && currentPlaceId ? (
+      {showPlaceDetailsModal && currentPlaceId ? (
         <React.Suspense fallback={null}>
-          <PlaceDetailsCard
-            handleClose={() => setShowPlaceDetailsCard(false)}
+          <PlaceDetailsModal
+            handleClose={() => setShowPlaceDetailsModal(false)}
             placeId={currentPlaceId}
           />
         </React.Suspense>

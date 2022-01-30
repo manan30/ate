@@ -10,14 +10,14 @@ import { formatNumberToHrs } from '../../utils/functions/convert-number-to-hrs';
 import { weekDayMappings } from '../../utils/constants';
 import { GlobeAltIcon, PhoneIcon } from '@heroicons/react/outline';
 
-type PlaceDetailsCardProps = {
+type PlaceDetailsModalProps = {
   placeId: string;
   handleClose: () => void;
 };
 
 const level2CategoryCodes = Object.keys(Level2HereCategories);
 
-const PlaceDetailsCard: React.FC<PlaceDetailsCardProps> = ({
+const PlaceDetailsModal: React.FC<PlaceDetailsModalProps> = ({
   placeId,
   handleClose
 }) => {
@@ -173,4 +173,4 @@ const PlaceDetailsCard: React.FC<PlaceDetailsCardProps> = ({
   );
 };
 
-export default PlaceDetailsCard;
+export default PlaceDetailsModal;

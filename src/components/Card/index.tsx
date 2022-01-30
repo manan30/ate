@@ -19,15 +19,25 @@ const Card: React.FC<CardProps> = ({ className, children, isLoading }) => {
       {!isLoading ? (
         children
       ) : (
-        <div
-          className={cn(
-            `flex flex-col space-y-2`,
-            isLoading && 'animate-pulse'
-          )}
-        >
-          <div className='w-4/5 h-3 bg-slate-400'></div>
-          <div className='w-3/5 h-3 bg-slate-400'></div>
-          <div className='w-2/5 h-3 bg-slate-400'></div>
+        <div className='flex flex-col space-y-2'>
+          <div
+            className={cn(
+              'w-4/5 h-3 bg-slate-400',
+              isLoading && 'animate-pulse'
+            )}
+          ></div>
+          <div
+            className={cn(
+              'w-3/5 h-3 bg-slate-400',
+              isLoading && 'animate-pulse animation-delay-200'
+            )}
+          ></div>
+          <div
+            className={cn(
+              'w-2/5 h-3 bg-slate-400',
+              isLoading && 'animate-pulse animation-delay-400'
+            )}
+          ></div>
         </div>
       )}
     </div>

@@ -5,8 +5,8 @@ import useBrowse from '../../../hooks/here-api/useBrowse';
 import { useGlobalState } from '../../../providers/GlobalState';
 import ExploreNearbyCard from './ExploreNearbyCard';
 
-const PlaceDetailsCard = React.lazy(
-  () => import('../../../components/PlaceDetailsCard')
+const PlaceDetailsModal = React.lazy(
+  () => import('../../../components/PlaceDetailsModal')
 );
 
 const ExploreNearby = () => {
@@ -14,7 +14,7 @@ const ExploreNearby = () => {
   const { browseData, isLoading } = useBrowse();
 
   const [currentPlaceId, setCurrentPlaceId] = useState<string | null>(null);
-  const [showPlaceDetailsCard, setShowPlaceDetailsCard] = useState(false);
+  const [showPlaceDetailsModal, setShowPlaceDetailsModal] = useState(false);
 
   return (
     <>
@@ -32,7 +32,7 @@ const ExploreNearby = () => {
                   item={item}
                   handleTitleClick={() => {
                     setCurrentPlaceId(item.id);
-                    setShowPlaceDetailsCard(true);
+                    setShowPlaceDetailsModal(true);
                   }}
                 />
               </div>
@@ -48,10 +48,10 @@ const ExploreNearby = () => {
           </div>
         ) : null}
       </section>
-      {showPlaceDetailsCard && currentPlaceId ? (
+      {showPlaceDetailsModal && currentPlaceId ? (
         <React.Suspense fallback={null}>
-          <PlaceDetailsCard
-            handleClose={() => setShowPlaceDetailsCard(false)}
+          <PlaceDetailsModal
+            handleClose={() => setShowPlaceDetailsModal(false)}
             placeId={currentPlaceId}
           />
         </React.Suspense>
