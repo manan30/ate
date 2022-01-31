@@ -6,7 +6,10 @@ import LoadingFallback from './LoadingFallback';
 import { convertMeterToMile } from '../../utils/functions/convert-meter-to-mile';
 import { useBadgeStyles } from '../../hooks/ui/useBadgeStyles';
 import { Level2HereCategories } from '../../hooks/ui/constants';
-import { formatNumberToHrs } from '../../utils/functions/convert-number-to-hrs';
+import {
+  formatNumberToHrs,
+  sortHours
+} from '../../utils/functions/convert-number-to-hrs';
 import { weekDayMappings } from '../../utils/constants';
 import { GlobeAltIcon, PhoneIcon } from '@heroicons/react/outline';
 
@@ -83,6 +86,10 @@ const PlaceDetailsModal: React.FC<PlaceDetailsModalProps> = ({
       {}
     );
 
+  const sortedHours = sortHours(hours ?? {});
+
+  const isOpen = lookupData?.openingHours?.[0].isOpen;
+
   const today = Intl.DateTimeFormat('default', { weekday: 'short' }).format(
     new Date()
   );
@@ -90,7 +97,31 @@ const PlaceDetailsModal: React.FC<PlaceDetailsModalProps> = ({
   return (
     <Modal
       cancelAction={{ text: 'Close', handler: handleClose }}
-      title={lookupData?.title}
+      Title={
+        <div className='flex items-center'>
+          <div className='flex-1'>{lookupData?.title}</div>
+          {contacts ? (
+            <div className='flex ml-auto space-x-3 item-center'>
+              {contacts?.phone ? (
+                <a
+                  href={`tel:${contacts.phone[0]?.value ?? ''}`}
+                  className='focus:outline-slate-600'
+                >
+                  <PhoneIcon className='w-5 h-5 text-slate-800' />
+                </a>
+              ) : null}
+              {contacts?.www ? (
+                <a
+                  href={contacts.www[0]?.value ?? ''}
+                  className='focus:outline-blue-600'
+                >
+                  <GlobeAltIcon className='w-5 h-5 text-blue-600' />
+                </a>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+      }
     >
       {isLoading ? <LoadingFallback /> : null}
       {lookupData ? (
@@ -129,9 +160,8 @@ const PlaceDetailsModal: React.FC<PlaceDetailsModalProps> = ({
               </div>
             ) : null}
             {hours ? (
-              // TODO: Show N/A for days not present in hours object and sort and show open now for a particular day
               <div className='grid grid-cols-1 gap-2 md:grid-cols-2'>
-                {Object.entries(hours).map((entry) => (
+                {sortedHours.map((entry) => (
                   <div
                     className={cn(
                       'text-xs italic font-light text-slate-600',
@@ -139,31 +169,13 @@ const PlaceDetailsModal: React.FC<PlaceDetailsModalProps> = ({
                     )}
                     key={entry[0]}
                   >
-                    {entry[0]}: {entry[1].startTime} - {entry[1].endTime}
+                    {entry[0]}:{' '}
+                    {typeof entry[1] === 'string'
+                      ? entry[1]
+                      : `${entry[1].startTime} - ${entry[1].endTime}`}{' '}
+                    {today === entry[0] && isOpen && '(Open Now)'}
                   </div>
                 ))}
-              </div>
-            ) : null}
-          </div>
-          <div>
-            {contacts ? (
-              <div className='flex justify-end space-x-3 item-center'>
-                {contacts?.phone ? (
-                  <a
-                    href={`tel:${contacts.phone[0]?.value ?? ''}`}
-                    className='focus:outline-slate-600'
-                  >
-                    <PhoneIcon className='w-5 h-5 text-slate-800' />
-                  </a>
-                ) : null}
-                {contacts?.www ? (
-                  <a
-                    href={contacts.www[0]?.value ?? ''}
-                    className='focus:outline-blue-600'
-                  >
-                    <GlobeAltIcon className='w-5 h-5 text-blue-600' />
-                  </a>
-                ) : null}
               </div>
             ) : null}
           </div>

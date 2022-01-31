@@ -3,14 +3,14 @@ import Button from '../Button';
 import { Dialog, Transition } from '@headlessui/react';
 
 type ModalProps = {
-  title?: string;
+  Title?: string | React.ReactElement;
   size?: 'small' | 'medium' | 'large';
   cancelAction?: { text: string; handler: () => void };
   confirmAction?: { text: string; handler: () => void };
 };
 
 const Modal: React.FC<ModalProps> = ({
-  title,
+  Title,
   cancelAction,
   confirmAction,
   children
@@ -62,12 +62,12 @@ const Modal: React.FC<ModalProps> = ({
             leaveTo='opacity-0 scale-50'
           >
             <div className='inline-block w-full h-full max-w-md px-6 py-4 my-8 overflow-hidden text-left align-middle transition-all transform rounded-md shadow-md bg-slate-100 max-h-[70vh]'>
-              {title ? (
+              {Title ? (
                 <Dialog.Title
                   as='h3'
                   className='text-lg font-medium leading-6 text-orange-600'
                 >
-                  {title}
+                  {Title}
                 </Dialog.Title>
               ) : null}
               <Dialog.Description

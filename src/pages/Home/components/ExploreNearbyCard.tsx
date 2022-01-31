@@ -63,7 +63,7 @@ const ExploreNearbyCard: React.FC<ExploreNearbyCardProps> = ({
           <div className='flex items-center'>
             <button
               onClick={handleTitleClick}
-              className='p-0 m-0 text-base font-medium text-orange-600 rounded-sm hover:text-orange-700 focus:outline-none focus:outline-orange-600 focus:text-orange-700'
+              className='p-0 m-0 text-base font-medium text-orange-600 truncate rounded-sm hover:text-orange-700 focus:outline-none focus:outline-orange-600 focus:text-orange-700'
             >
               {item.title}
             </button>
