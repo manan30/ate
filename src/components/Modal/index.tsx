@@ -1,23 +1,32 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import cn from 'classnames';
 import Button from '../Button';
 import { Dialog, Transition } from '@headlessui/react';
 
 type ModalProps = {
-  Title?: string | React.ReactElement;
+  show: boolean;
+  title?: string | React.ReactElement;
   size?: 'small' | 'medium' | 'large';
   cancelAction?: { text: string; handler: () => void };
   confirmAction?: { text: string; handler: () => void };
+  disableOutsideClick?: boolean;
 };
 
 const Modal: React.FC<ModalProps> = ({
-  Title,
+  show,
+  title,
   cancelAction,
   confirmAction,
-  children
+  children,
+  disableOutsideClick
 }) => {
   const [enableTransition, setEnableTransition] = useState(true);
 
-  return (
+  useEffect(() => {
+    setEnableTransition(show);
+  }, [show]);
+
+  return show ? (
     <Transition
       appear
       show={enableTransition}
@@ -42,7 +51,12 @@ const Modal: React.FC<ModalProps> = ({
             leaveFrom='opacity-100'
             leaveTo='opacity-0'
           >
-            <Dialog.Overlay className='fixed inset-0 bg-slate-700/30' />
+            <Dialog.Overlay
+              className={cn(
+                'fixed inset-0 bg-slate-700/30',
+                disableOutsideClick && 'pointer-events-none'
+              )}
+            />
           </Transition.Child>
 
           <span
@@ -62,12 +76,12 @@ const Modal: React.FC<ModalProps> = ({
             leaveTo='opacity-0 scale-50'
           >
             <div className='inline-block w-full h-full max-w-md px-6 py-4 my-8 overflow-hidden text-left align-middle transition-all transform rounded-md shadow-md bg-slate-100 max-h-[70vh]'>
-              {Title ? (
+              {title ? (
                 <Dialog.Title
                   as='h3'
-                  className='text-lg font-medium leading-6 text-orange-600'
+                  className='text-base font-medium leading-6 text-orange-600 md:text-lg'
                 >
-                  {Title}
+                  {title}
                 </Dialog.Title>
               ) : null}
               <Dialog.Description
@@ -88,7 +102,7 @@ const Modal: React.FC<ModalProps> = ({
                 ) : null}
                 {confirmAction ? (
                   <Button
-                    variant='link'
+                    variant='primary'
                     className='min-w-[1.5rem]'
                     onClickHandler={() => setEnableTransition(false)}
                   >
@@ -101,7 +115,7 @@ const Modal: React.FC<ModalProps> = ({
         </div>
       </Dialog>
     </Transition>
-  );
+  ) : null;
 };
 
 export default Modal;

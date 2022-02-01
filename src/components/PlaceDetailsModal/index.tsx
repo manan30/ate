@@ -96,8 +96,9 @@ const PlaceDetailsModal: React.FC<PlaceDetailsModalProps> = ({
 
   return (
     <Modal
+      show
       cancelAction={{ text: 'Close', handler: handleClose }}
-      Title={
+      title={
         <div className='flex items-center'>
           <div className='flex-1'>{lookupData?.title}</div>
           {contacts ? (
@@ -136,7 +137,7 @@ const PlaceDetailsModal: React.FC<PlaceDetailsModalProps> = ({
             <div className='text-xs truncate text-slate-500'>
               {lookupData.address?.label.split(',').slice(1).join(',')}
             </div>
-            <div className='flex items-center space-x-3'>
+            <div className='flex items-center space-x-2'>
               {level2Category ? (
                 <div className={cn('h-auto w-auto', categoryBadgeStyles)}>
                   {level2Category.name}
@@ -151,7 +152,7 @@ const PlaceDetailsModal: React.FC<PlaceDetailsModalProps> = ({
                 : null}
             </div>
             {foodTypes?.length ? (
-              <div className='flex items-center space-x-3'>
+              <div className='flex items-center space-x-2'>
                 {foodTypes.map((foodType) => (
                   <div className={foodTypeBadgeStyles} key={foodType}>
                     {foodType}

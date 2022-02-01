@@ -1,18 +1,17 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useGlobalDispatch } from '../../providers/GlobalState';
 import type { UserLocationPosition } from '../../reducers/GlobalState/types';
 
-const defaultSettings: PositionOptions = {
-  enableHighAccuracy: false,
+const settings: PositionOptions = {
+  enableHighAccuracy: true,
   timeout: Infinity,
   maximumAge: 0
 };
 
-const usePosition = (watch = false, userSettings: PositionOptions = {}) => {
+const usePosition = (promptLocationPermissionDialog: boolean) => {
   const dispatch = useGlobalDispatch();
-  const settings: PositionOptions = useMemo(
-    () => ({ ...defaultSettings, ...userSettings }),
-    [userSettings]
+  const storedGeoLocationPermission = localStorage.getItem(
+    'geolocation-permission'
   );
 
   const onChange = useCallback(
@@ -23,6 +22,7 @@ const usePosition = (watch = false, userSettings: PositionOptions = {}) => {
       coords: GeolocationCoordinates;
       timestamp: number;
     }) => {
+      localStorage.setItem('geolocation-permission', 'granted');
       dispatch?.({
         type: 'SET_USER_LOCATION',
         payload: {
@@ -40,6 +40,7 @@ const usePosition = (watch = false, userSettings: PositionOptions = {}) => {
 
   const onError = useCallback(
     (error: GeolocationPositionError | { message: string }) => {
+      localStorage.setItem('geolocation-permission', 'revoked');
       dispatch?.({ type: 'SET_USER_LOCATION_ERROR', payload: error.message });
     },
     [dispatch]
@@ -53,13 +54,15 @@ const usePosition = (watch = false, userSettings: PositionOptions = {}) => {
       return;
     }
 
-    if (watch) {
-      const watcher = navigator.geolocation.watchPosition(onChange, onError);
-      return () => navigator.geolocation.clearWatch(watcher);
+    if (storedGeoLocationPermission || promptLocationPermissionDialog) {
+      navigator.geolocation.getCurrentPosition(onChange, onError, settings);
     }
-
-    navigator.geolocation.getCurrentPosition(onChange, onError, settings);
-  }, [watch, settings, onChange, onError]);
+  }, [
+    onChange,
+    onError,
+    storedGeoLocationPermission,
+    promptLocationPermissionDialog
+  ]);
 };
 
 export default usePosition;
