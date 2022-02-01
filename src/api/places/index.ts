@@ -4,10 +4,13 @@ import type {
   AutoSuggestResponse,
   DiscoverResponse,
   AutoCompleteResponse,
-  BrowseResponse
+  BrowseResponse,
+  LookupResponse
 } from './types';
 
-const searchServiceEndpoint = generateServiceEndpoint(HERE_API_SERVICES.SEARCH);
+const discoverServiceEndpoint = generateServiceEndpoint(
+  HERE_API_SERVICES.SEARCH
+);
 const autoSuggestServiceEndpoint = generateServiceEndpoint(
   HERE_API_SERVICES.AUTOSUGGEST
 );
@@ -15,13 +18,14 @@ const autoCompleteServiceEndpoint = generateServiceEndpoint(
   HERE_API_SERVICES.AUTOCOMPLETE
 );
 const browseServiceEndpoint = generateServiceEndpoint(HERE_API_SERVICES.BROWSE);
+const lookupServiceEndpoint = generateServiceEndpoint(HERE_API_SERVICES.LOOKUP);
 
 export const placesApiEndpoints = {
-  search: (searchTerm: string) =>
-    axios.get<DiscoverResponse>(searchServiceEndpoint, {
+  discover: (searchTerm: string, coords: { lat: number; lng: number }) =>
+    axios.get<DiscoverResponse>(discoverServiceEndpoint, {
       params: {
         q: searchTerm,
-        in: 'circle:42.36309,-71.05495;r=150',
+        at: `${coords.lat},${coords.lng}`,
         apiKey: import.meta.env.VITE_HERE_API_KEY?.toString() ?? ''
       }
     }),
@@ -46,6 +50,13 @@ export const placesApiEndpoints = {
         at: `${coords.lat},${coords.lng}`,
         categories: '100-1000,300-3000,600-6100,!100-1000-0009',
         foodTypes: '202,208,102',
+        apiKey: import.meta.env.VITE_HERE_API_KEY?.toString() ?? ''
+      }
+    }),
+  lookup: (id: string) =>
+    axios.get<LookupResponse>(lookupServiceEndpoint, {
+      params: {
+        id,
         apiKey: import.meta.env.VITE_HERE_API_KEY?.toString() ?? ''
       }
     })

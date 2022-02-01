@@ -2,7 +2,8 @@ export enum HERE_API_SERVICES {
   'AUTOSUGGEST' = 'autosuggest',
   'AUTOCOMPLETE' = 'autocomplete',
   'SEARCH' = 'discover',
-  'BROWSE' = 'browse'
+  'BROWSE' = 'browse',
+  'LOOKUP' = 'lookup'
 }
 
 const PROTOCOL = 'https://';

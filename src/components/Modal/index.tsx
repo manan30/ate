@@ -1,56 +1,121 @@
-import React from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import cn from 'classnames';
 import Button from '../Button';
+import { Dialog, Transition } from '@headlessui/react';
 
 type ModalProps = {
+  show: boolean;
+  title?: string | React.ReactElement;
   size?: 'small' | 'medium' | 'large';
   cancelAction?: { text: string; handler: () => void };
   confirmAction?: { text: string; handler: () => void };
+  disableOutsideClick?: boolean;
 };
 
 const Modal: React.FC<ModalProps> = ({
-  size = 'medium',
+  show,
+  title,
   cancelAction,
   confirmAction,
-  children
+  children,
+  disableOutsideClick
 }) => {
-  return (
-    <div className='fixed inset-0 w-full h-full'>
-      <div className='fixed inset-0 w-full h-full bg-slate-600 opacity-30'></div>
-      <div className='fixed inset-0 grid w-full h-full place-items-center'>
-        <div
-          className={cn(
-            'p-4 rounded-md m-8 shadow-md bg-slate-100 text-sm md:text-base',
-            size === 'small' && 'w-1/2 md:w-[30%]',
-            size === 'medium' && 'w-3/5',
-            size === 'large' && 'w-4/5 md:w-[70%]'
-          )}
-        >
-          {children}
-          <div className='flex items-center justify-end mt-6 space-x-4'>
-            {cancelAction ? (
-              <Button
-                variant='link'
-                className='min-w-[1.5rem] text-slate-600 hover:text-slate-700'
-                onClickHandler={cancelAction.handler}
+  const [enableTransition, setEnableTransition] = useState(true);
+
+  useEffect(() => {
+    setEnableTransition(show);
+  }, [show]);
+
+  return show ? (
+    <Transition
+      appear
+      show={enableTransition}
+      as={Fragment}
+      afterLeave={() => {
+        if (cancelAction?.handler) cancelAction.handler();
+        if (confirmAction?.handler) confirmAction.handler();
+      }}
+    >
+      <Dialog
+        as='div'
+        className='fixed inset-0 z-[100] overflow-hidden'
+        onClose={() => setEnableTransition(false)}
+      >
+        <div className='min-h-screen px-4 text-center'>
+          <Transition.Child
+            as={Fragment}
+            enter='ease-out duration-300'
+            enterFrom='opacity-0'
+            enterTo='opacity-100'
+            leave='ease-in duration-200'
+            leaveFrom='opacity-100'
+            leaveTo='opacity-0'
+          >
+            <Dialog.Overlay
+              className={cn(
+                'fixed inset-0 bg-slate-700/30',
+                disableOutsideClick && 'pointer-events-none'
+              )}
+            />
+          </Transition.Child>
+
+          <span
+            className='inline-block h-screen align-middle'
+            aria-hidden='true'
+          >
+            &#8203;
+          </span>
+
+          <Transition.Child
+            as={Fragment}
+            enter='ease-out duration-[400ms]'
+            enterFrom='opacity-0 scale-50'
+            enterTo='opacity-100 scale-100'
+            leave='ease-in duration-200'
+            leaveFrom='opacity-100 scale-100'
+            leaveTo='opacity-0 scale-50'
+          >
+            <div className='inline-block w-full h-full max-w-md px-6 py-4 my-8 overflow-hidden text-left align-middle transition-all transform rounded-md shadow-md bg-slate-100 max-h-[70vh]'>
+              {title ? (
+                <Dialog.Title
+                  as='h3'
+                  className='text-base font-medium leading-6 text-orange-600 md:text-lg'
+                >
+                  {title}
+                </Dialog.Title>
+              ) : null}
+              <Dialog.Description
+                as='div'
+                className='h-full overflow-hidden overflow-y-auto max-h-modal-description'
               >
-                {cancelAction.text}
-              </Button>
-            ) : null}
-            {confirmAction ? (
-              <Button
-                variant='link'
-                className='min-w-[1.5rem]'
-                onClickHandler={confirmAction.handler}
-              >
-                {confirmAction.text}
-              </Button>
-            ) : null}
-          </div>
+                {children}
+              </Dialog.Description>
+              <div className='flex items-center justify-end mt-4 space-x-4'>
+                {cancelAction ? (
+                  <Button
+                    variant='default'
+                    className='min-w-[1.5rem] text-slate-600 hover:text-slate-700'
+                    onClickHandler={() => setEnableTransition(false)}
+                  >
+                    {cancelAction.text}
+                  </Button>
+                ) : null}
+                {confirmAction ? (
+                  <Button
+                    variant='primary'
+                    className='min-w-[1.5rem]'
+                    onClickHandler={() => setEnableTransition(false)}
+                  >
+                    {confirmAction.text}
+                  </Button>
+                ) : null}
+              </div>
+            </div>
+          </Transition.Child>
         </div>
-      </div>
-    </div>
-  );
+      </Dialog>
+    </Transition>
+  ) : null;
 };
 
 export default Modal;
