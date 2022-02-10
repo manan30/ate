@@ -18,7 +18,10 @@ const Auth = () => {
       </button>
       {showAuthModal ? (
         <React.Suspense fallback={null}>
-          <AuthModal show={showAuthModal} />
+          <AuthModal
+            show={showAuthModal}
+            onClose={() => setShowAuthModal(false)}
+          />
         </React.Suspense>
       ) : null}
     </>

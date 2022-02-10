@@ -90,26 +90,29 @@ const Modal: React.FC<ModalProps> = ({
               >
                 {children}
               </Dialog.Description>
-              <div className='flex items-center justify-end mt-4 space-x-4'>
-                {cancelAction ? (
-                  <Button
-                    variant='default'
-                    className='min-w-[1.5rem] text-slate-600 hover:text-slate-700'
-                    onClickHandler={() => setEnableTransition(false)}
-                  >
-                    {cancelAction.text}
-                  </Button>
-                ) : null}
-                {confirmAction ? (
-                  <Button
-                    variant='primary'
-                    className='min-w-[1.5rem]'
-                    onClickHandler={() => setEnableTransition(false)}
-                  >
-                    {confirmAction.text}
-                  </Button>
-                ) : null}
-              </div>
+              {(cancelAction && cancelAction.text) ||
+              (confirmAction && confirmAction.text) ? (
+                <div className='flex items-center justify-end mt-4 space-x-4'>
+                  {cancelAction && cancelAction.text !== '' ? (
+                    <Button
+                      variant='default'
+                      className='min-w-[1.5rem] text-slate-600 hover:text-slate-700'
+                      onClickHandler={() => setEnableTransition(false)}
+                    >
+                      {cancelAction.text}
+                    </Button>
+                  ) : null}
+                  {confirmAction ? (
+                    <Button
+                      variant='primary'
+                      className='min-w-[1.5rem]'
+                      onClickHandler={() => setEnableTransition(false)}
+                    >
+                      {confirmAction.text}
+                    </Button>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           </Transition.Child>
         </div>
