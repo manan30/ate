@@ -22,7 +22,7 @@ const ExploreNearby = () => {
         <h2 className='mt-6 mb-2 text-lg font-medium text-slate-700'>
           Explore Nearby
         </h2>
-        <div className='grid flex-1 grid-cols-1 gap-4 mb-1 overflow-y-auto md:grid-cols-2 xl:grid-cols-3'>
+        <div className='grid flex-1 grid-cols-1 gap-4 mb-2 overflow-y-auto md:grid-cols-2 xl:grid-cols-3'>
           {isLoading || !userLocation.position ? (
             <LoadingCards />
           ) : (
