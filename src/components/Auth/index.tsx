@@ -9,7 +9,7 @@ const Auth = () => {
   return (
     <>
       <button
-        className='p-1 ml-auto text-orange-100 rounded-full focus:outline-none focus:ring-1 focus:ring-orange-200'
+        className='p-1 ml-auto text-orange-500 rounded-full focus:outline-none focus:ring-1 focus:ring-orange-200 hover:text-orange-700'
         onClick={() => {
           setShowAuthModal(true);
         }}

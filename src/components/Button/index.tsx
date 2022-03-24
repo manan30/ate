@@ -4,13 +4,15 @@ import cn from 'classnames';
 type ButtonProps = {
   variant?: 'primary' | 'secondary' | 'error' | 'link' | 'default';
   className?: string;
-  onClickHandler: () => void;
+  type?: 'submit' | 'button';
+  onClickHandler?: () => void;
 };
 
 const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   className,
   children,
+  type = 'button',
   onClickHandler
 }) => {
   const buttonClasses = cn(
@@ -26,7 +28,7 @@ const Button: React.FC<ButtonProps> = ({
     className && className
   );
   return (
-    <button className={buttonClasses} onClick={onClickHandler}>
+    <button className={buttonClasses} type={type} onClick={onClickHandler}>
       {children}
     </button>
   );
